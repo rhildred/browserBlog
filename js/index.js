@@ -3,29 +3,29 @@ import "https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.js";
 import aPages from "../pages/index.js";
 
 class Page {
-    render(){
+    render() {
         console.log("render called on page");
     }
 }
 
-class Section extends Page{
-    constructor(oOptions){
+class Section extends Page {
+    constructor(oOptions) {
         super();
         this.oOptions = oOptions;
     }
-    render(){
-        $.get(`/pages/${this.oOptions.fname}`, (sMarkdown)=>{
+    render() {
+        $.get(`/pages/${this.oOptions.fname}`, (sMarkdown) => {
             $(`#${this.oOptions.title}`).html(
                 marked(sMarkdown)
             )
-    
+
         })
     }
 }
 
-class Article extends Page{
-    render(){
-        for(let n = 0; n < aPages.length; n++){
+class Article extends Page {
+    render() {
+        for (let n = 0; n < aPages.length; n++) {
             $("article").append(
                 `<section id="${aPages[n].title}"></section>`
             );
@@ -34,9 +34,9 @@ class Article extends Page{
     }
 }
 
-class Footer extends Page{
-    render(){
-        const sName = "Rich Hildred";
+class Footer extends Page {
+    render() {
+        const sName = "Alex Cruickshank";
         const yToday = new Date().getFullYear();
         $("footer").html(
             `&copy; ${yToday} ${sName}`
@@ -44,15 +44,15 @@ class Footer extends Page{
     }
 }
 
-class Portfolio extends Page{
-    constructor(){
+class Portfolio extends Page {
+    constructor() {
         super();
         this.header = new Page();
         this.nav = new Page();
         this.article = new Article();
         this.footer = new Footer();
     }
-    render(){
+    render() {
         this.header.render();
         this.nav.render();
         this.article.render();
@@ -60,7 +60,6 @@ class Portfolio extends Page{
     }
 }
 
-$(document).ready(()=>{
+$(document).ready(() => {
     new Portfolio().render();
 });
-
