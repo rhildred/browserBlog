@@ -7,8 +7,13 @@ import aItems from "../items/index.js";
 class Page {
     constructor(){
         this.sName = "Richard Hildred";
-        const sFile = '/' + document.location.pathname.split('/').pop();
-        this.sBase = document.location.pathname.substr(0, -sFile.length);
+        const sBase = document.location.pathname;
+        if(sBase[sBase.length - 1] == "/"){
+            this.sBase = sBase.substr(0, sBase.length -1);
+        }else{
+            const sFile = '/' + document.location.pathname.split('/').pop();
+            this.sBase = sBase.substr(0, sBase.length - sFile.length); 
+        }
     }
     render() {
         console.log("render called on page");
@@ -32,7 +37,7 @@ class Items extends Page{
         $("article#current").append(`
             <img src="${this.sBase + this.oItems[this.nCurrentItem].specialImage}" />
         `);
-        $.get(`${this.sBase}/items/${this.sBase + this.oItems[this.nCurrentItem].fname}`, (sMarkdown) => {
+        $.get(`${this.sBase}/items/${this.oItems[this.nCurrentItem].fname}`, (sMarkdown) => {
             $("article#current").append(
                 marked(sMarkdown)
             )
