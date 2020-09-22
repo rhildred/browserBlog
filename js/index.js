@@ -15,6 +15,13 @@ class Page {
             this.sBase = sBase.substr(0, sBase.length - sFile.length); 
         }
     }
+    getImageSrc(sImage){
+        if(sImage.match(/\:\/\//)){
+            return sImage;
+        }else{
+            return this.sBase + sImage;
+        }
+    }
     render() {
         console.log("render called on page");
     }
@@ -35,19 +42,19 @@ class Items extends Page{
     }
     render(){
         $("article#current").append(`
-            <img src="${this.sBase + this.oItems[this.nCurrentItem].specialImage}" />
+            <div class="itemImage"><img src="${this.getImageSrc(this.oItems[this.nCurrentItem].specialImage)}" /></div>
         `);
         $.get(`${this.sBase}/items/${this.oItems[this.nCurrentItem].fname}`, (sMarkdown) => {
-            $("article#current").append(
-                marked(sMarkdown)
-            )
+            $("article#current").append(`
+                <div class="markdownItem">${marked(sMarkdown)}</div>
+            `)
 
         })
         for(let n = 0; n < this.oItems.length; n++){
             if(n != this.nCurrentItem){
                 $("article#items").append(`
                 <div class="item"><a class="itemLink" href="#">
-                <img id="item${n}" src="${this.sBase + this.oItems[n].specialImage}" /></a></div>
+                <img id="item${n}" src="${this.getImageSrc(this.oItems[n].specialImage)}" /></a></div>
                 `);
            }
         }
@@ -63,13 +70,13 @@ class Section extends Page {
     render() {
         if (this.oOptions.specialImage) {
             $(`#${this.oOptions.title}`).append(`
-            <img src="${this.sBase + this.oOptions.specialImage}" />
+            <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
             `);
         }
         $.get(`${this.sBase}/pages/${this.oOptions.fname}`, (sMarkdown) => {
-            $(`#${this.oOptions.title}`).append(
-                marked(sMarkdown)
-            )
+            $(`#${this.oOptions.title}`).append(`
+                <div class="markDownPage">${marked(sMarkdown)}</div>
+            `)
 
         })
     }
