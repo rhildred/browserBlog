@@ -8,7 +8,7 @@ class Page {
     constructor(){
         this.sName = "Richard Hildred";
         const sFile = '/' + document.location.pathname.split('/').pop();
-        this.sBase = document.location.pathname.replace(sFile, "");
+        this.sBase = document.location.pathname.substr(0, -sFile.length);
     }
     render() {
         console.log("render called on page");
