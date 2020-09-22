@@ -3,3 +3,9 @@
 .navbar-nav.navbar-right:last-child {
     margin-right: 0;
 }
+
+article#items{
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
