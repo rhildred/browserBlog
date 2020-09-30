@@ -5,7 +5,7 @@ I'm Alex Cruickshank, I'm currently in my final year of Information Technology I
 Current Skill-set:
 - html5
 - CSS3
-- Javasciprt
+- Javascript
 - jQuery
 - Java
 - ASP.net
