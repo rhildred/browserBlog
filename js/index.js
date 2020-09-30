@@ -34,10 +34,15 @@ class Section extends Page {
         this.oOptions = oOptions;
     }
     render() {
-        $.get(`/pages/${this.oOptions.fname}`, (sMarkdown) => {
-            $(`#${this.oOptions.title}`).html(
-                marked(sMarkdown)
-            )
+        if (this.oOptions.specialImage) {
+            $(`#${this.oOptions.title}`).append(`
+            <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
+            `);
+        }
+        $.get(`${this.sBase}/pages/${this.oOptions.fname}`, (sMarkdown) => {
+            $(`#${this.oOptions.title}`).append(`
+                <div class="markDownPage">${marked(sMarkdown)}</div>
+            `)
 
         })
     }
