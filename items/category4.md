@@ -1,1 +1,0 @@
-This is an article about a goal category

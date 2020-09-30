@@ -36,15 +36,15 @@ class Items extends Page{
             evt.preventDefault();
             this.nCurrentItem = evt.target.id[4];
             $("article#current").html("");
-            $("article#items").html("");
+            $("section#itemsInner").html("");
             this.render();
         });
     }
     render(){
-        $("article#current").append(`
-            <div class="itemImage"><img src="${this.getImageSrc(this.oItems[this.nCurrentItem].specialImage)}" /></div>
-        `);
         $.get(`${this.sBase}/items/${this.oItems[this.nCurrentItem].fname}`, (sMarkdown) => {
+            $("article#current").append(`
+                <div class="itemImage"><img src="${this.getImageSrc(this.oItems[this.nCurrentItem].specialImage)}" /></div>
+            `);
             $("article#current").append(`
                 <div class="markdownItem">${marked(sMarkdown)}</div>
             `)
@@ -52,9 +52,11 @@ class Items extends Page{
         })
         for(let n = 0; n < this.oItems.length; n++){
             if(n != this.nCurrentItem){
-                $("article#items").append(`
-                <div class="item"><a class="itemLink" href="#">
-                <img id="item${n}" src="${this.getImageSrc(this.oItems[n].specialImage)}" /></a></div>
+                $("section#itemsInner").append(`
+                <div class="item">
+                    <a class="itemLink" href="#"><img id="item${n}" src="${this.getImageSrc(this.oItems[n].specialImage)}" /></a>
+                    <a id="btnn${n}" class="itemLink btn btn-primary btn-block" href="#">Learn More</a>
+                </div>
                 `);
            }
         }
@@ -68,15 +70,15 @@ class Section extends Page {
         this.oOptions = oOptions;
     }
     render() {
-        if (this.oOptions.specialImage) {
-            $(`#${this.oOptions.title}`).append(`
-            <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
-            `);
-        }
         $.get(`${this.sBase}/pages/${this.oOptions.fname}`, (sMarkdown) => {
+            if (this.oOptions.specialImage) {
+                $(`#${this.oOptions.title}`).append(`
+                <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
+                `);
+            }    
             $(`#${this.oOptions.title}`).append(`
                 <div class="markDownPage">${marked(sMarkdown)}</div>
-            `)
+            `);
 
         })
     }
