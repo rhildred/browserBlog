@@ -12,6 +12,12 @@ body {
     padding-bottom: 4em;
 }
 
+article#items {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 img {
     max-width: 100%;
     height: auto;
