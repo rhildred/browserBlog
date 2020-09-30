@@ -3,6 +3,8 @@ import "https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.js";
 import "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js";
 import aPages from "../pages/index.js";
 
+const sName = "Alex Cruickshank";
+
 class Page {
     constructor() {
         this.sName = "Alex Cruickshank";
@@ -58,10 +60,11 @@ class Article extends Page {
     }
 }
 
-const sName = "Alex Cruickshank";
+
 
 class Footer extends Page {
     render() {
+
         const yToday = new Date().getFullYear();
         $("footer").html(
             `&copy; ${yToday} ${sName}`
