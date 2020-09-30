@@ -28,7 +28,8 @@ class Article extends Page {
     render() {
         for (let n = 0; n < aPages.length; n++) {
             $("article").append(
-                `<section id="${aPages[n].title}"></section>`
+                `<section id="${aPages[n].title}">                
+                </section>`
             );
             const sPage = aPages[n];
             if (sPage.specialImage) {
