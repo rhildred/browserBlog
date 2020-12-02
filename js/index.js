@@ -7,6 +7,7 @@ import aItems from "../items/index.js";
 class Page {
     constructor(){
         this.sName = "Richard Hildred";
+        this.sUrlToEmailer = "https://dry-bayou-18746.herokuapp.com/send/";
         const sBase = document.location.pathname;
         if(sBase[sBase.length - 1] == "/"){
             this.sBase = sBase.substr(0, sBase.length -1);
@@ -34,10 +35,13 @@ class Items extends Page{
         this.nCurrentItem = 0;
         $("article#items").click((evt) =>{
             evt.preventDefault();
-            this.nCurrentItem = evt.target.id[4];
-            $("article#current").html("");
-            $("section#itemsInner").html("");
-            this.render();
+            const nItem = evt.target.id[4];
+            if(nItem){
+                this.nCurrentItem = evt.target.id[4];
+                $("article#current").html("");
+                $("section#itemsInner").html("");
+                this.render(); 
+            }
         });
     }
     render(){
@@ -71,14 +75,14 @@ class Section extends Page {
     }
     render() {
         $.get(`${this.sBase}/pages/${this.oOptions.fname}`, (sMarkdown) => {
+            $(`#${this.oOptions.title}`).prepend(`
+                <div class="markDownPage">${marked(sMarkdown)}</div>
+            `);
             if (this.oOptions.specialImage) {
-                $(`#${this.oOptions.title}`).append(`
+                $(`#${this.oOptions.title}`).prepend(`
                 <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
                 `);
             }    
-            $(`#${this.oOptions.title}`).append(`
-                <div class="markDownPage">${marked(sMarkdown)}</div>
-            `);
 
         })
     }
@@ -102,6 +106,30 @@ class Footer extends Page {
             `&copy; ${yToday} ${this.sName}`
         );
     }
+}
+
+class Contact extends Page{
+    render() {
+        $("#Contact").append(`
+        <form action="${this.sUrlToEmailer}" method="POST">
+            <div class="form-group">
+                <label>Name: <input name="name" placeholder="name" class="form-control" required /></label>
+            </div>
+            <div class="form-group">
+                <!-- Add required to make the user enter something. Add type="email" to make it have an @ symbol-->
+                <label>Email:<input name="email" placeholder="email" type="email" class="form-control"
+                        required /></label>
+            </div>
+            <div class="form-group">
+                <label>Message:<textarea name="message" placeholder="type your message here" class="form-control"
+                        required></textarea></label>
+            </div>
+            <button type="submit">Send Message</button>
+
+        </form>    
+        `);
+    }
+
 }
 
 class Nav extends Page {
@@ -145,6 +173,7 @@ class Portfolio extends Page {
         this.items = new Items(aItems);
         this.article = new Article();
         this.footer = new Footer();
+        this.contact = new Contact();
     }
     render() {
         this.header.render();
@@ -152,10 +181,25 @@ class Portfolio extends Page {
         this.items.render();
         this.article.render();
         this.footer.render();
+        this.contact.render();
     }
 }
 
 $(document).ready(() => {
     new Portfolio().render();
+    $('.right-button').click((evt) => {
+        evt.preventDefault();
+        $('section#itemsInner').animate({
+            scrollLeft: "+=200px"
+        }, "fast");
+    });
+
+    $('.left-button').click((evt) => {
+        evt.preventDefault();
+        $('section#itemsInner').animate({
+            scrollLeft: "-=200px"
+        }, "fast");
+    });
+
 });
 
