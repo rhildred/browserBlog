@@ -47,7 +47,7 @@ class Items extends Page{
     render(){
         $.get(`${this.sBase}/items/${this.oItems[this.nCurrentItem].fname}`, (sMarkdown) => {
             $("article#current").append(`
-                <div class="itemImage"><img src="${this.getImageSrc(this.oItems[this.nCurrentItem].specialImage)}" /></div>
+                <div class="itemImage"><img src="${this.getImageSrc(this.oItems[this.nCurrentItem].specialImage)}" alt="${this.oItems[this.nCurrentItem].id}" /></div>
             `);
             $("article#current").append(`
                 <div class="markdownItem">${marked(sMarkdown)}</div>
@@ -58,7 +58,7 @@ class Items extends Page{
             if(n != this.nCurrentItem){
                 $("section#itemsInner").append(`
                 <div class="item">
-                    <a class="itemLink" href="#"><img id="item${n}" src="${this.getImageSrc(this.oItems[n].specialImage)}" /></a>
+                    <a class="itemLink" href="#"><img id="item${n}" src="${this.getImageSrc(this.oItems[n].specialImage)}" alt="${this.oItems[n].id}"/></a>
                     <a id="btnn${n}" class="itemLink btn btn-primary btn-block" href="#">Learn More</a>
                 </div>
                 `);
@@ -80,7 +80,7 @@ class Section extends Page {
             `);
             if (this.oOptions.specialImage) {
                 $(`#${this.oOptions.title}`).prepend(`
-                <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" /></div>
+                <div class="pageImage"><img src="${this.getImageSrc(this.oOptions.specialImage)}" alt="${this.oOptions.title}"/></div>
                 `);
             }    
 
